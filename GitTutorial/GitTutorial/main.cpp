@@ -6,5 +6,7 @@ int main()
 
     std::cout << "git commit test" << std::endl;
 
+    std::cout << "Only commit test, not push" << std::endl;
+
     return 0;
 }
