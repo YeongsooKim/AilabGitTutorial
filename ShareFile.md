@@ -1,9 +1,7 @@
 Hello 
 
-Hello world
+step2
 
-studying
 
-check for merging error
+af
 
-check merging error in local
