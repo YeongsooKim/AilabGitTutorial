@@ -1,11 +1,13 @@
 Hello 
 
-Hello world
+step2
 
-studying
 
-check for merging error
+af
 
+<<<<<<< HEAD
+=======
 check merging error in local
 
 :(
+>>>>>>> ab4007be396b76b70ef5809bc8b7e12dc7be2fc2
