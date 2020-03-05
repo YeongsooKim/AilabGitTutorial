@@ -38,4 +38,24 @@ CVCS 환경 단점
 
 Figure 3. 분산 버전 관리 시스템(DVCS).
 
+# Git Repository 구성
+
+* Local: 컴퓨터의 저장소(ex. 내 컴퓨터)
+ Local에서 작업한 내용은 서버로 push 하지 않으면 서버 저장소에 변경 내용이 반영되지 않음.
+
+* Remote: 서버의 저장소(ex. Github)
+ Local에서 push 받아서 작업한 내용을 저장하는 공간.
+
+
+* working directory: 우리가 지금 사용하고 있는 컴퓨터에 있는 작업 디렉토리
+ 각자 컴퓨터에서 어떤 파일들을 만들거나, 파일의 내용을 수정하였거나 등등 각자 어떠한 작업을 한 디렉토리
+
+* staging area: 변경 내용을 local repo 공간에 올리기 전 임시 저장소
+ 깃은 파일이 추가되고, 삭제되고, 수정되는 등 변경사항을 전부 파악할 수 있다. working directory 변경사항이 있는 파일들 중 최종적으로 다음 단계인 local repo에 저장할 파일들을 설정할 수 있고, 우리가 설정한 파일들이 staging area에 임시적으로 저장한다.
+
+* local repo: 컴퓨터의 저장소
+ 전 단계인 staging area의 파일들을 최종적으로 우리 컴퓨터에 저장하는 저장소(working directory와 다르다). git은 저장소를 버전으로 관리하는데 working directory에서 변경된 내용은 저장(commit. commit에 대한 자세한 내용은 뒤에서)되지 않으면 변경사항이 저장소에 반영되지 않는다.
+ 
 ![image10](https://user-images.githubusercontent.com/51704629/76034501-73b74800-5f82-11ea-902c-3a25491be604.png)
+
+-------- version 사이에 편집내용 있고 이 내용이 앞선 version에 포함되지 않는다는 image 만들어서 넣을 것 --------
