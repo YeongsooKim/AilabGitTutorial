@@ -40,12 +40,15 @@ Figure 3. 분산 버전 관리 시스템(DVCS).
 
 # Git Repository 구성
 
+### Git 공간
+
+Git 디렉토리는 Git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳
+
 * Local: 컴퓨터의 저장소(ex. 내 컴퓨터)
  Local에서 작업한 내용은 서버로 push 하지 않으면 서버 저장소에 변경 내용이 반영되지 않음.
 
 * Remote: 서버의 저장소(ex. Github)
  Local에서 push 받아서 작업한 내용을 저장하는 공간.
-
 
 * working directory: 우리가 지금 사용하고 있는 컴퓨터에 있는 작업 디렉토리
  각자 컴퓨터에서 어떤 파일들을 만들거나, 파일의 내용을 수정하였거나 등등 각자 어떠한 작업을 한 디렉토리
@@ -58,4 +61,36 @@ Figure 3. 분산 버전 관리 시스템(DVCS).
  
 ![image10](https://user-images.githubusercontent.com/51704629/76034501-73b74800-5f82-11ea-902c-3a25491be604.png)
 
+### 세 가지 상태
+
+Git은 파일을 Committed, Modified, Staged 이렇게 세 가지 상태로 관리
+* Committed란 데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미
+ 
+* Modified는 수정한 파일을 아직 로컬 데이터베이스에 커밋하지 않은 것
+ staging area, repo에 올라가지도 않은 상태
+ 
+* Staged란 현재 수정한 파일을 곧 커밋할 것이라고 표시한 상태
+ staging area에 파일이 올라간 상태
+
 -------- version 사이에 편집내용 있고 이 내용이 앞선 version에 포함되지 않는다는 image 만들어서 넣을 것 --------
+
+
+# 사전 작업
+
+### Git 회원 가입
+link: https://github.com/
+
+(_Remote repository push 권한을 부여하기 위한 username 교육자에게 알려주세요_)
+![collaborator](https://user-images.githubusercontent.com/51704629/76037503-92214180-5f8a-11ea-9631-ae514f0e3167.png)
+
+### Clone YeongsooKim repository
+link: https://github.com/YeongsooKim/AilabGitTutorial
+
+![ys_repo](https://user-images.githubusercontent.com/51704629/76038092-145e3580-5f8c-11ea-8cf4-ead12586a17b.png)
+
+Click the button, *Clone or download*, copy the link
+
+```
+$ cd ~
+$ git clone "paste link"
+```
