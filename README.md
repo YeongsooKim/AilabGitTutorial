@@ -518,11 +518,17 @@ f9230be HEAD@{8}: commit: REMOVE initialize file
 	* 원격 저장소로부터 필요한 파일을 다운 (병합은 따로 해야 함)
 * pull
 	* 원격 저장소로부터 필요한 파일을 다운 + 병합
-	* 
+	
+```
+$git pull
+```
+
+프로젝트를 공유하고 싶을 때 git push 명령어를 사용하면 된다. 이 명령은 git push <리모트 저장소 이름> <브랜치 이름>`으로 단순하다.
 
 ```
-$ git fetch <remote>
+$ git push origin master
+```
 
+이 명령은 Clone 한 리모트 저장소에 쓰기 권한이 있고, Clone 하고 난 이후 아무도 Upstream 저장소에 Push 하지 않았을 때만 사용할 수 있다. 다시 말해서 Clone 한 사람이 여러 명 있을 때, 다른 사람이 Push 한 후에 Push 하려고 하면 Push 할 수 없다. 먼저 다른 사람이 작업한 것을 가져와서 Merge 한 후에 Push 할 수 있다.
 
-### 커밋 충돌 해결하기
 
