@@ -532,3 +532,79 @@ $ git push origin master
 이 명령은 Clone 한 리모트 저장소에 쓰기 권한이 있고, Clone 하고 난 이후 아무도 Upstream 저장소에 Push 하지 않았을 때만 사용할 수 있다. 다시 말해서 Clone 한 사람이 여러 명 있을 때, 다른 사람이 Push 한 후에 Push 하려고 하면 Push 할 수 없다. 먼저 다른 사람이 작업한 것을 가져와서 Merge 한 후에 Push 할 수 있다.
 
 
+### 충돌 문제 해결
+~/git_tutorial_ws/remote_repo/workspace/<user name> 위치에 있는 <user name.md> 파일 수정후 git push.
+	
+```
+$ git commit -a -m "MODIFY conflict error test"
+$ git push origin master
+$ git push origin master
+Username for 'https://github.com': yeongsookim
+Password for 'https://yeongsookim@github.com': 
+To https://github.com/YeongsooKim/remote_repo.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'https://github.com/YeongsooKim/remote_repo.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+```
+
+remote repository에 push 할 수 없는 상태. 다른 사용자에 의해서 remote와 local 데이터베이스 상태가 다를 때 push를 할 수 없다.
+git pull 명령어를 이용하여 Conflict 부분을 수정해야 한다.
+
+``` 
+$ git pull
+remote: Enumerating objects: 9, done.
+remote: Counting objects: 100% (9/9), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 5 (delta 1), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (5/5), 860 bytes | 172.00 KiB/s, done.
+From https://github.com/YeongsooKim/remote_repo
+   d1369d6..9a8d428  master     -> origin/master
+Auto-merging workspace/yeongsoo/yeongsoo.md
+CONFLICT (content): Merge conflict in workspace/yeongsoo/yeongsoo.md
+Automatic merge failed; fix conflicts and then commit the result.
+```
+
+remote와 local repository 내용이 충돌하였고 workspace/yeongsoo/yeongsoo.md 파일을 자동 결합시켰다. 해당 파일을 열어서 충돌이 발생한 내용을 보면 아래와 같다.
+
+```
+very gooooood
+
+<<<<<<< HEAD
+conflict error test in local
+=======
+
+testing
+>>>>>>> 9a8d428561743381e01f47f2205d433189793170
+```
+
+양쪽 브랜치에서 추가된 부분이 이 파일에 다 적용됐다. 적용한 커밋 중 파일의 같은 부분을 수정해서 위와 같은 충돌이 생긴다. HEAD는 local master의 체크섬을 뜻하고 9a8d428561743381e01f47f2205d433189793170은 remote 체크섬을 의미한다. 현재 remote에 local master를 버전을 push 하려 하기 떄문에 remote 에 있는 내용을 일치시킨 후 local에 추가 된 내용을 작성해야 한다.
+
+```
+very gooooood
+
+testing
+
+conflict error test in local
+
+$ git commit -a -m "SOLOVE conflict problem"
+$ git push
+
+Username for 'https://github.com': yeongsookim
+Password for 'https://yeongsookim@github.com': 
+Enumerating objects: 18, done.
+Counting objects: 100% (18/18), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (9/9), done.
+Writing objects: 100% (10/10), 1.01 KiB | 1.01 MiB/s, done.
+Total 10 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas: 100% (2/2), completed with 1 local object.
+To https://github.com/YeongsooKim/remote_repo.git
+   9a8d428..2a6bc66  master -> master
+
+```
+
+Conflict 부분을 수정 후 push 하면 remote에 있는 내용과 local에 있는 가장 최신 파일이 merge 된 것을 확인할 수 있다.
