@@ -3,12 +3,10 @@
 # Git 이란
 
 ### 버전관리
-
 관리 시스템(*VCS* - Version Control System)을 사용하면 파일을 이전 상태로 되돌릴 수 있고, 프로젝트를 통째로 이전 상태로 되돌릴 수 있고, 시간에 따라 수정 내용을 비교해 볼 수 있고, 누가 문제를 일으켰는지도 추적할 수 있고, 누가 언제 만들어낸 이슈인지도 알 수 있다. **VCS를 사용하면 파일을 잃어버리거나 잘못 고쳤을 때도 쉽게 복구할 수 있다.**
 
 
 ### 로컬 버전 관리
-
 많은 사람은 버전을 관리하기 위해 디렉토리로 파일을 복사하는 방법을 사용한다. 하지만 작업하던 디렉토리를 지워버리거나, 실수로 파일을 잘못 고칠 수도 있고, 잘못 복사할 될 가능성이 있다.
 
 이런 이유로 프로그래머들은 오래전에 로컬 VCS라는 걸 만들었다. 이 VCS는 아주 간단한 데이터베이스를 사용해서 파일의 변경 정보를 관리한다.
@@ -19,7 +17,6 @@ Figure1. 로컬 버전 관리.
 
 
 ### 중앙집중식 버전 관리(CVCS)
-
  위 문제와 프로젝트를 진행하다 보면 다른 개발자와 함께 작업해야 하는 경우 생기는 문제를 해결하기 위해 *CVCS*(중앙집중식 VCS)가 개발되었다. 이 시스템은 **파일을 관리하는 서버가 별도로 있고 클라이언트가 중앙 서버에서 파일을 받아서 사용(Checkout).**
 ![centeral](https://user-images.githubusercontent.com/51704629/76033107-c68f0080-5f7e-11ea-87b0-050567ba89d9.png)
 
@@ -45,7 +42,6 @@ Figure 3. 분산 버전 관리 시스템(DVCS).
 
 
 ### Git 공간
-
 Git 디렉토리는 Git이 프로젝트의 메타데이터와 객체 데이터베이스를 저장하는 곳
 
 * Local: 컴퓨터의 저장소(ex. 내 컴퓨터)
@@ -67,7 +63,6 @@ Git 디렉토리는 Git이 프로젝트의 메타데이터와 객체 데이터�
 
 
 #### 세 가지 상태
-
 Git은 파일을 Committed, Modified, Staged 이렇게 세 가지 상태로 관리
 * Committed란 데이터가 로컬 데이터베이스에 안전하게 저장됐다는 것을 의미
  
@@ -91,10 +86,9 @@ link: https://github.com/
 
 
 ### terminal color
-
 편한 편집기를 이용하여 _~/.bashrc_ 열기
 
-아래 줄을 찾은 후 '#' 제거.
+아래 줄을 찾은 후 '#' 제거
 
 ```python
 #force_color_prompt=yes
@@ -107,7 +101,6 @@ source ~/.bashrc
 
 
 ### Git 설치 되어있는지 확인
-
 아래 명령어를 통해서 git이 설치되어 있는지 확인
 ```
 $ cd ~
@@ -116,21 +109,6 @@ git version 2.25.0
 ```
 
 만약 git version이 표시되지 않는다면 ```sudo apt-get install git``` 명령어를 실행하여 gitd을 설치한다.
-
-
-### Clone YeongsooKim repository
-link: https://github.com/YeongsooKim/AilabGitTutorial
-
-![ys_repo](https://user-images.githubusercontent.com/51704629/76038092-145e3580-5f8c-11ea-8cf4-ead12586a17b.png)
-
-*Clone or download* 버튼 클릭해서 표시되는 링크 복사
-
-링크 복사후 Terminal 하나 새로 실행시킨후 아래 명령어 입력
-
-```
-$ cd ~
-$ git clone "paste link"
-```
 
 
 ### 사용자 정보 입력
@@ -156,14 +134,54 @@ user.name=yeongsookim
 
 ```
 $ cd ~
-$ mkdir git_tutorial_ws && cd git_tutorial_ws
+$ mkdir git_tutorial_ws
+$ mkdir local_repo && cd local_repo
 $ git init
 ```
+
 이 명령은 .git 이라는 하위 디렉토리를 만든다. .git 디렉토리에는 저장소에 필요한 뼈대 파일(Skeleton)이 들어 있다. 이 명령만으로는 아직 프로젝트의 어떤 파일도 관리하지 않는다. 
 
-Git이 파일을 관리하게 하려면 저장소에 파일을 추가하고 커밋해야 한다. git add 명령으로 파일을 추가하고 git commit 명령으로 커밋한다
+Git이 파일을 관리하게 하려면 저장소에 파일을 추가하고 커밋해야 한다. git add 명령으로 파일을 추가하고 git commit 명령으로 커밋한다(readme.txt 파일은 편한 편집기를 이용하여 만들어서 추가하면 된다).
+
 ```
-$ git add *.c
-$ git add LICENSE
+$ git add readme.txt
 $ git commit -m 'initial project version'
+$ git log
+
+commit 2a2f49f8ee1973b3befa0ad429651ca44ab4cacd (HEAD -> master)
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 10:26:57 2020 +0900
+
+    initial project version
+
 ```
+
+#### 기존 저장소를 Clone 하기
+다른 프로젝트에 참여하려거나(Contribute) Git 저장소를 복사하고 싶을 때 git clone 명령을 사용한다. 
+
+Clone YeongsooKim repository
+link: https://github.com/YeongsooKim/remote_repo
+
+![remote_repo](https://user-images.githubusercontent.com/51704629/76041736-407eb400-5f96-11ea-8c53-710c680908cb.png)
+
+*Clone or download* 버튼 클릭해서 표시되는 링크 복사
+
+링크 복사 후 Terminal 하나 새로 실행시킨후 아래 명령어 입력
+
+```
+$ cd ~
+$ git clone "paste link"
+```
+
+이 명령은 “remote_repo” 라는 디렉토리를 만들고 그 안에 .git 디렉토리를 만든다. 그리고 저장소의 데이터를 모두 가져와서 자동으로 가장 최신 버전을 Checkout 해 놓는다. 그리고 저장소의 데이터를 모두 가져와서 자동으로 가장 최신 버전을 Checkout 해 놓는다. remote_repo 디렉토리로 이동하면 Checkout으로 생성한 파일을 볼 수 있고 당장 하고자 하는 일을 시작할 수 있다.
+
+아래과 같은 명령을 사용하여 저장소를 Clone 하면 `remote_repo`이 아니라 다른 디렉토리 이름으로 Clone 할 수 있다.
+
+```
+$ cd ~
+$ git clone "paste link" rename_repo
+```
+
+디렉토리 이름이 rename_repo 이라는 것만 빼면 이 명령의 결과와 앞선 명령의 결과는 같다.
+
+
