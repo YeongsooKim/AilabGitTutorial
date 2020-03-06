@@ -304,4 +304,225 @@ commit 명령은 몇 가지 정보를 출력하는데 위 예제는 (master) 브
 
 Git은 Staging Area에 속한 스냅샷을 커밋한다는 것을 기억해야 한다. 수정은 했지만, 아직 Staging Area에 넣지 않은 것은 다음에 커밋할 수 있다. 커밋할 때마다 프로젝트의 스냅샷을 기록하기 때문에 나중에 스냅샷끼리 비교하거나 예전 스냅샷으로 되돌릴 수 있다.
 
-#### 
+
+### 커밋 히스토리 조회하기
+Git에는 히스토리를 조회하는 명령어인 git log 가 있다. 이 프로젝트 디렉토리에서 git log 명령을 실행하면 아래와 같이 출력된다.
+
+```
+$ git log
+commit 89beefa5f7cedf74c050ed4a99368bfb8b6212a9 (HEAD -> master)
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:56:45 2020 +0900
+
+    ADD,REMOVE yeongsoo.md, readme.md
+
+commit ec511216aaaca376971f9177b5df0d1f418e36e2 (origin/master, origin/HEAD)
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:44:49 2020 +0900
+
+    REMOVE yeongsoo.md
+
+commit 4cbcd1e7a9350e725123ff413b3268fccb39398d
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:41:32 2020 +0900
+
+    ADD files of education
+
+commit 582a344c2d765aad4d4a7f1a4718219c23f7887a
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:37:43 2020 +0900
+
+    ADD files of education
+
+commit 4e8bc7da6e2fe0988773d18b1d20e8246f542061
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:20:54 2020 +0900
+
+    ADD workspace folder
+
+commit f9230be0117d01d1bcf4d51fe4f3bff52da90757
+:
+```
+
+특별한 아규먼트 없이 git log 명령을 실행하면 저장소의 커밋 히스토리를 시간순으로 보여준다. 즉, 가장 최근의 커밋이 가장 먼저 나온다. 그리고 이어서 각 커밋의 SHA-1 체크섬, 저자 이름, 저자 이메일, 커밋한 날짜, 커밋 메시지를 보여준다.
+
+
+### 되돌리기
+종종 완료한 커밋을 수정해야 할 때가 있다. 너무 일찍 커밋했거나 하는 경우에 커밋 수정하는 것을 알아본다.
+
+#### 파일 상태를 Unstage로 변경하기
+다음은 Staging Area와 Working directory 사이를 넘나드는 방법을 설명한다. 예를 들어 파일을 두 개 수정하고서 따로따로 커밋하려고 했지만, 실수로 git add * 라고 실행해 버린 경우.
+
+```
+$ echo 'very gooooood' > yeongsoo.md
+$ echo 'Hi @______@' > yeongsoo_.md
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   yeongsoo.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	yeongsoo_.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git add *
+$ git status 
+
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   yeongsoo.md
+	new file:   yeongsoo_.md
+
+```
+
+결과를 보면 두개 파일이 Stage Area 에 추가되어 있는 것을 볼 수 있다. 이것을 git reset HEAD <file>... 이 명령으로 Unstaged 상태로 변경할 수 있다. yeongsoo_.md 파일을 Unstaged 상태로 변경해보자.
+	
+```
+$ git reset HEAD yeongsoo_.md
+$ git status
+
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   yeongsoo.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	yeongsoo_.md
+
+```
+
+yeongsoo_.md 파일은 Unstaged 상태가 됐다.
+
+
+### commit 한 파일 되돌리기
+git은 이전 버전 내용을 전부 기억하고 있기 때문에 다시 이전 체크섬으로 되돌릴 수 있다. 먼저 현재 저장되어 있는 readme.md 를 변경한다. 그 후 git add 후 git commit 명령어로 commit.
+
+```
+$ git add *
+$ git commit -m "MODIFY readme.md"
+$ git push
+$ git log
+commit 87bc6797a6d831e83961207262e7a8d19c8fd08f (HEAD -> master, origin/master, origin/HEAD)
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 12:40:56 2020 +0900
+
+    MODIFY readme.md
+
+commit ebe236cae5ab50cd58efe279c8b516f5700422e9
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 12:36:31 2020 +0900
+
+    ADD yeongsoo_.md
+
+commit 89beefa5f7cedf74c050ed4a99368bfb8b6212a9
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:56:45 2020 +0900
+
+    ADD,REMOVE yeongsoo.md, readme.md
+
+commit ec511216aaaca376971f9177b5df0d1f418e36e2
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:44:49 2020 +0900
+
+    REMOVE yeongsoo.md
+
+commit 4cbcd1e7a9350e725123ff413b3268fccb39398d
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:41:32 2020 +0900
+
+    ADD files of education
+
+commit 582a344c2d765aad4d4a7f1a4718219c23f7887a
+:
+```
+
+편집기를 이용하여 readme.md 파일이 변경된 것을 확인한다. 그 후 git reset HEAD ebe236c 명령어를 통해서 체크섬 ebe236c으로 되돌린다(체크섬 hash는 7개 까지만 복사하면 된다).
+
+```
+$ git reset --hard ebe236c
+HEAD is now at ebe236c ADD yeongsoo_.md
+$ git log
+commit ebe236cae5ab50cd58efe279c8b516f5700422e9 (HEAD -> master)
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 12:36:31 2020 +0900
+
+    ADD yeongsoo_.md
+
+commit 89beefa5f7cedf74c050ed4a99368bfb8b6212a9
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:56:45 2020 +0900
+
+    ADD,REMOVE yeongsoo.md, readme.md
+
+commit ec511216aaaca376971f9177b5df0d1f418e36e2
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:44:49 2020 +0900
+
+    REMOVE yeongsoo.md
+
+commit 4cbcd1e7a9350e725123ff413b3268fccb39398d
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:41:32 2020 +0900
+
+    ADD files of education
+
+commit 582a344c2d765aad4d4a7f1a4718219c23f7887a
+Author: yeongsookim <kimkys768@gmail.com>
+Date:   Fri Mar 6 11:37:43 2020 +0900
+
+    ADD files of education
+
+commit 4e8bc7da6e2fe0988773d18b1d20e8246f542061
+:
+
+```
+
+내용물을 확인해보면 이전 readme.md 로 되돌려져 있는것을 확인할 수 있고, git log에서 이전 체크섬 87bc6797a6d831e83961207262e7a8d19c8fd08f 이 사라져 있는것을 확인할 수 있다. 하지만 git은 웬만해서는 삭제를 하지 않으므로 이전 체크섬을 git reflog 명령어로 확인할 수 있다.
+
+```
+$ git reflog
+ebe236c (HEAD -> master) HEAD@{0}: reset: moving to ebe236c
+87bc679 (origin/master, origin/HEAD) HEAD@{1}: commit: MODIFY readme.md
+ebe236c (HEAD -> master) HEAD@{2}: commit: ADD yeongsoo_.md
+89beefa HEAD@{3}: commit: ADD,REMOVE yeongsoo.md, readme.md
+ec51121 HEAD@{4}: commit: REMOVE yeongsoo.md
+4cbcd1e HEAD@{5}: commit: ADD files of education
+582a344 HEAD@{6}: commit: ADD files of education
+4e8bc7d HEAD@{7}: commit: ADD workspace folder
+f9230be HEAD@{8}: commit: REMOVE initialize file
+6929cda HEAD@{9}: pull: Fast-forward
+445973f HEAD@{10}: clone: from https://github.com/YeongsooKim/remote_repo.git
+```
+
+결과에서 이전 체크섬 ebe236c 이 보이는 것을 확인
+
+### 리모트 저장소를 Pull 하거나 Fetch 하기
+리모트 저장소에서 데이터를 가져오려면 간단히 아래와 같이 실행한다.
+
+* fetch
+	* 원격 저장소로부터 필요한 파일을 다운 (병합은 따로 해야 함)
+* pull
+	* 원격 저장소로부터 필요한 파일을 다운 + 병합
+	* 
+
+```
+$ git fetch <remote>
+
+
+### 커밋 충돌 해결하기
+
