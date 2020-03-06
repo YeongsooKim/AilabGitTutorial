@@ -82,7 +82,7 @@ Git은 파일을 Committed, Modified, Staged 이렇게 세 가지 상태로 관�
 link: https://github.com/
 
 (_Remote repository push 권한을 부여하기 위한 username 교육자에게 알려주세요_)
-![collaborator](https://user-images.githubusercontent.com/51704629/76037503-92214180-5f8a-11ea-9631-ae514f0e3167.png)
+![invite_collaborator](https://user-images.githubusercontent.com/51704629/76041964-e03c4200-5f96-11ea-967e-323e439dbbc0.png)
 
 
 ### terminal color
@@ -93,6 +93,7 @@ link: https://github.com/
 ```python
 #force_color_prompt=yes
 ```
+
 저장 후 종료한 다음 아래 명어 실행
 
 ```python
@@ -102,6 +103,7 @@ source ~/.bashrc
 
 ### Git 설치 되어있는지 확인
 아래 명령어를 통해서 git이 설치되어 있는지 확인
+
 ```
 $ cd ~
 $ git --version
@@ -114,12 +116,14 @@ git version 2.25.0
 ### 사용자 정보 입력
 Git을 설치하고 나면 Git의 사용 환경을 적절하게 설정해 주어야 한다. 환경 설정은 한 컴퓨터에서 한 번만 하면 된다. 설정한 내용은 Git을 업그레이드해도 유지된다. 언제든지 다시 바꿀 수 있는 명령어도 있다.
 
+```
 $ git config --global user.name "yeongsookim"
 $ git config --global user.email "kimkys768@gmail.com"
 $ git config --list
 user.email=kimkys768@gmail.com
 user.name=yeongsookim
  ...
+```
 
 
 # Git 실습
@@ -185,3 +189,119 @@ $ git clone "paste link" rename_repo
 디렉토리 이름이 rename_repo 이라는 것만 빼면 이 명령의 결과와 앞선 명령의 결과는 같다.
 
 
+### 수정하고 저장소에 저장하기
+현재 상태: Git 저장소를 하나 만들었고 워킹 디렉토리에 Checkout
+수행할 내용: 파일을 수정하고 파일의 스냅샷을 커밋
+
+워킹 디렉토리의 모든 파일은 크게 Tracked(관리대상임)와 Untracked(관리대상이 아님)로 나눈다. Tracked 파일은 이미 스냅샷에 포함돼 있던 파일이다. Tracked 파일은 또 Unmodified(수정하지 않음)와 Modified(수정함) 그리고 Staged(커밋으로 저장소에 기록할) 상태 중 하나이다. 간단히 말하자면 Git이 알고 있는 파일이라는 것이다.
+
+그리고 나머지 파일은 모두 Untracked 파일이다. Untracked 파일은 워킹 디렉토리에 있는 파일 중 스냅샷에도 Staging Area에도 포함되지 않은 파일이다. 처음 저장소를 Clone 하면 모든 파일은 Tracked이면서 Unmodified 상태이다. 파일을 Checkout 하고 나서 아무것도 수정하지 않았기 때문에 그렇다.
+
+마지막 커밋 이후 아직 아무것도 수정하지 않은 상태에서 어떤 파일을 수정하면 Git은 그 파일을 Modified 상태로 인식한다. 실제로 커밋을 하기 위해서는 이 수정한 파일을 Staged 상태로 만들고, Staged 상태의 파일을 커밋한다. 이런 라이프사이클을 계속 반복한다.
+
+![lifecycle](https://user-images.githubusercontent.com/51704629/76043203-23e47b00-5f9a-11ea-8be7-ec6a40932666.png)
+
+#### 파일의 상태 확인하기
+파일의 상태를 확인하려면 git status 명령을 사용한다. Clone 한 후에 바로 이 명령을 실행하면 아래과 같은 메시지를 볼 수 있다.
+
+```
+$ cd ~/git_tutorial_ws/remote_repo/yeongsoo
+$ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+nothing to commit, working directory clean
+```
+
+위의 내용은 파일을 하나도 수정하지 않았다는 것을 말해준다. Tracked 파일은 하나도 수정되지 않았다는 의미다. Untracked 파일은 아직 없어서 목록에 나타나지 않는다. 그리고 현재 작업 중인 브랜치를 알려주며 서버의 같은 브랜치로부터 진행된 작업이 없는 것을 나타낸다. 기본 브랜치가 master이기 때문에 현재 브랜치 이름이 “master” 로 나온다. 브랜치 설명은 차후에 다룬다.
+
+#### 파일을 새로 추적하기
+프로젝트에 개인 파일을 만들어보자. yeongsoo.md 파일은 새로 만든 파일이기 때문에 **git status** 를 실행하면 'Untracked files’에 들어 있다:
+```
+$ echo 'Hello ^______^' > yeongsoo.md
+$ git status
+
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	yeongsoo.md
+
+nothing added to commit but untracked files present (use "git add" to track)
+```
+
+README 파일이 Untracked 상태라는 것을 말한다. Git은 Untracked 파일을 아직 스냅샷(커밋)에 넣어지지 않은 파일이라고 본다. 파일이 Tracked 상태가 되기 전까지는 Git은 절대 그 파일을 커밋하지 않는다.
+
+추적할 수 있도록 **git add** 명령 사용.
+
+```
+$ git add yeongsoo.md
+$ git status
+
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   yeongsoo.md
+```
+
+yeongsoo.md 파일이 Tracked 상태이면서 커밋에 추가될 Staged 상태라는 것을 확인할 수 있다. “Changes to be committed” 에 들어 있는 파일은 Staged 상태라는 것을 의미한다.
+
+#### Modified 상태의 파일을 Stage 하기
+이미 Tracked 상태인 파일을 수정. readme.md 라는 파일을 수정하고 나서 git status 명령을 다시 실행하면 결과는 아래와 같다.
+
+```
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	new file:   yeongsoo.md
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   readme.md
+```
+
+readme.md 파일은 “Changes not staged for commit” 에 있다. 이것은 수정한 파일이 Tracked 상태이지만 아직 Staged 상태는 아니라는 것이다. Staged 상태로 만들려면 git add 명령을 실행해야 한다. git add 명령은 파일을 새로 추적할 때도 사용하고 수정한 파일을 Staged 상태로 만들 때도 사용한다.
+
+git add 명령을 실행하여 CONTRIBUTING.md 파일을 Staged 상태로 만들고 git status 명령으로 결과를 확인
+
+```
+$ git add readme.md
+$ git status
+
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+	modified:   readme.md
+	new file:   yeongsoo.md
+```
+
+#### 변경사항 커밋하기
+수정한 것을 커밋하기 위해 Staging Area에 파일을 정리했다(Unstaged 상태의 파일은 커밋되지 않는다). 커밋하기 전에 git status 명령으로 모든 것이 Staged 상태인지 확인 후에 git commit 을 실행하여 커밋한다(선택적으로 commit을 한다면 모든 것이 Staged 상태일 필요는 없다).
+
+명령어 git commit -m "comment"는 comment를 추가하여 commit을 한다.
+
+```
+$ git commit -m "ADD,REMOVE yeongsoo.md, readme.md"
+[master 89beefa] ADD,REMOVE yeongsoo.md, readme.md
+ 2 files changed, 3 insertions(+)
+ create mode 100644 workspace/yeongsoo/yeongsoo.md
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+```
+
+commit 명령은 몇 가지 정보를 출력하는데 위 예제는 (master) 브랜치에 커밋했고 체크섬은 (463dc4f)이라고 알려준다. 그리고 수정한 파일이 몇 개이고 삭제됐거나 추가된 라인이 몇 라인인지 알려준다.
+
+Git은 Staging Area에 속한 스냅샷을 커밋한다는 것을 기억해야 한다. 수정은 했지만, 아직 Staging Area에 넣지 않은 것은 다음에 커밋할 수 있다. 커밋할 때마다 프로젝트의 스냅샷을 기록하기 때문에 나중에 스냅샷끼리 비교하거나 예전 스냅샷으로 되돌릴 수 있다.
+
+#### 
