@@ -90,7 +90,25 @@ link: https://github.com/
 ![collaborator](https://user-images.githubusercontent.com/51704629/76037503-92214180-5f8a-11ea-9631-ae514f0e3167.png)
 
 
+### terminal color
+
+편한 편집기를 이용하여 _~/.bashrc_ 열기
+
+아래 줄을 찾은 후 '#' 제거.
+
+```python
+#force_color_prompt=yes
+```
+저장 후 종료한 다음 아래 명어 실행
+
+```python
+source ~/.bashrc
+```
+
+
 ### Git 설치 되어있는지 확인
+
+아래 명령어를 통해서 git이 설치되어 있는지 확인
 ```
 $ cd ~
 $ git --version
@@ -105,7 +123,9 @@ link: https://github.com/YeongsooKim/AilabGitTutorial
 
 ![ys_repo](https://user-images.githubusercontent.com/51704629/76038092-145e3580-5f8c-11ea-8cf4-ead12586a17b.png)
 
-Click the button, *Clone or download*, copy the link
+*Clone or download* 버튼 클릭해서 표시되는 링크 복사
+
+링크 복사후 Terminal 하나 새로 실행시킨후 아래 명령어 입력
 
 ```
 $ cd ~
@@ -124,3 +144,26 @@ user.name=yeongsookim
  ...
 
 
+# Git 실습
+
+### Git 저장소 만들기
+주로 다음 주 가지 중 한 가지 방법으로 Git 저장소를 쓰기 시작한다.
+* 아직 버전관리를 하지 않는 로컬 디렉토리 하나를 선택해서 Git 저장소를 적용하는 방법
+* 다른 어딘가에서 Git 저장소를 Clone 하는 방법
+
+#### 기존 디렉토리를 Git 저장소로 만들기
+버전관리를 하지 아니하는 기존 프로젝트를 Git으로 관리하고 싶은 경우 우선 프로젝트의 디렉토리로 이동한다.
+
+```
+$ cd ~
+$ mkdir git_tutorial_ws && cd git_tutorial_ws
+$ git init
+```
+이 명령은 .git 이라는 하위 디렉토리를 만든다. .git 디렉토리에는 저장소에 필요한 뼈대 파일(Skeleton)이 들어 있다. 이 명령만으로는 아직 프로젝트의 어떤 파일도 관리하지 않는다. 
+
+Git이 파일을 관리하게 하려면 저장소에 파일을 추가하고 커밋해야 한다. git add 명령으로 파일을 추가하고 git commit 명령으로 커밋한다
+```
+$ git add *.c
+$ git add LICENSE
+$ git commit -m 'initial project version'
+```
