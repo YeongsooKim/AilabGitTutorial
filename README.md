@@ -511,7 +511,7 @@ f9230be HEAD@{8}: commit: REMOVE initialize file
 
 결과에서 이전 체크섬 ebe236c 이 보이는 것을 확인
 
-### 리모트 저장소를 Pull 하거나 Fetch 하기
+### 리모트 저장소
 리모트 저장소에서 데이터를 가져오려면 간단히 아래와 같이 실행한다.
 
 * fetch
